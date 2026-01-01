@@ -206,7 +206,7 @@ onMounted(initializeGame)
                            :title="won ? '🎉 Bravo ! Vous avez trouvé !' : `😢 Perdu ! C'était ${targetCountry?.name}`"
                         />
                         <a
-                           v-if="won && targetCountry"
+                           v-if="targetCountry"
                            :href="`https://www.google.com/maps/search/${targetCountry.name}`"
                            target="_blank"
                            rel="noopener noreferrer"
