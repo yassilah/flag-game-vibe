@@ -44,11 +44,11 @@ const emitGuess = (country: Country) => emit('guess', country)
          v-model="searchQuery"
          icon="i-heroicons-magnifying-glass"
          placeholder="Rechercher un pays..."
-         size="lg"
-         class="mb-4"
+         size="md"
+         class="sm:size-lg mb-3 sm:mb-4"
       />
 
-      <div class="grid max-h-96 grid-cols-1 gap-3 overflow-y-auto md:grid-cols-2">
+      <div class="grid max-h-[70vh] grid-cols-1 gap-2 overflow-y-auto sm:max-h-96 sm:gap-3 md:grid-cols-2">
          <UButton
             v-for="country in filteredCountries"
             :key="country.code"

@@ -99,15 +99,15 @@ onMounted(initializeGame)
 </script>
 
 <template>
-   <div class="mx-auto max-w-7xl space-y-6">
-      <div class="flex items-center justify-between">
+   <div class="mx-auto max-w-7xl space-y-4 sm:space-y-6">
+      <div class="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
          <NuxtLink
             to="/"
-            class="text-lg font-semibold text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+            class="text-sm font-semibold text-blue-600 hover:text-blue-800 sm:text-base md:text-lg dark:text-blue-400 dark:hover:text-blue-300"
          >
             ← Retour à l'accueil
          </NuxtLink>
-         <h1 class="text-2xl font-bold capitalize">
+         <h1 class="text-xl font-bold capitalize sm:text-2xl">
             Niveau: {{ difficulty }}
          </h1>
       </div>
@@ -126,22 +126,25 @@ onMounted(initializeGame)
       </UCard>
 
       <template v-else>
-         <div class="grid gap-6 lg:grid-cols-3">
+         <div class="grid gap-4 sm:gap-6 lg:grid-cols-3">
             <!-- Left side: Canvas and info -->
-            <div class="space-y-6 lg:col-span-2">
+            <div class="space-y-4 sm:space-y-6 lg:col-span-2">
                <UCard>
                   <template #header>
-                     <div class="flex items-center justify-between">
-                        <h2 class="text-xl font-semibold">
+                     <div class="flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
+                        <h2 class="text-lg font-semibold sm:text-xl">
                            Essai {{ currentGuess }}/{{ maxGuesses }}
                         </h2>
                         <UButton
                            v-if="gameOver"
                            color="primary"
                            icon="i-heroicons-arrow-path"
+                           size="sm"
+                           class="sm:size-md"
                            @click="handleReset"
                         >
-                           Nouveau jeu
+                           <span class="hidden sm:inline">Nouveau jeu</span>
+                           <span class="sm:hidden">Nouveau</span>
                         </UButton>
                      </div>
                   </template>
@@ -158,14 +161,14 @@ onMounted(initializeGame)
                   <template #footer>
                      <div
                         v-if="currentGuess > 0 && !gameOver"
-                        class="flex justify-center gap-4 text-sm"
+                        class="flex flex-col gap-2 text-xs sm:flex-row sm:justify-center sm:gap-4 sm:text-sm"
                      >
                         <div class="flex items-center gap-2">
-                           <div class="h-4 w-4 rounded border-2 border-gray-800 dark:border-gray-300" />
+                           <div class="h-3 w-3 flex-shrink-0 rounded border-2 border-gray-800 sm:h-4 sm:w-4 dark:border-gray-300" />
                            <span class="text-gray-600 dark:text-gray-300">Pixels corrects (vraies couleurs)</span>
                         </div>
                         <div class="flex items-center gap-2">
-                           <div class="h-4 w-4 rounded border-2 border-gray-400 bg-gray-200 dark:border-gray-500 dark:bg-gray-700" />
+                           <div class="h-3 w-3 flex-shrink-0 rounded border-2 border-gray-400 bg-gray-200 sm:h-4 sm:w-4 dark:border-gray-500 dark:bg-gray-700" />
                            <span class="text-gray-600 dark:text-gray-300">Pixels différents (transparents)</span>
                         </div>
                      </div>

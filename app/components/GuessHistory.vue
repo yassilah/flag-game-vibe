@@ -19,16 +19,17 @@ defineProps<{ guesses: Guess[] }>()
          <div
             v-for="(guess, index) in guesses"
             :key="`${guess.code}-${index}`"
-            class="flex items-center justify-between rounded-lg bg-gray-50 p-3 dark:bg-gray-800"
+            class="flex items-center justify-between gap-2 rounded-lg bg-gray-50 p-2 sm:gap-3 sm:p-3 dark:bg-gray-800"
          >
-            <div class="flex items-center gap-3">
-               <span class="text-2xl">{{ guess.emoji }}</span>
-               <span class="font-medium">{{ guess.name }}</span>
+            <div class="flex min-w-0 flex-1 items-center gap-2 sm:gap-3">
+               <span class="text-xl sm:text-2xl">{{ guess.emoji }}</span>
+               <span class="truncate text-sm font-medium sm:text-base">{{ guess.name }}</span>
             </div>
             <UBadge
                :color="guess.accuracy >= 90 ? 'success' : guess.accuracy >= 70 ? 'warning' : 'error'"
                variant="subtle"
-               size="lg"
+               size="md"
+               class="sm:size-lg flex-shrink-0"
             >
                {{ guess.accuracy.toFixed(1) }}%
             </UBadge>
