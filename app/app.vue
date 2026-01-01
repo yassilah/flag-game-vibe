@@ -1,5 +1,4 @@
 <script setup>
-// If you want to use it in setup, import from the nuxtApp.
 const { $pwa } = useNuxtApp()
 
 const toast = useToast()
@@ -23,7 +22,7 @@ onMounted(() => {
             </p>
          </header>
          <div
-            v-show="$pwa.needRefresh"
+            v-if="$pwa?.isPWAInstalled && $pwa.needRefresh"
             class="mb-4 flex items-center justify-between rounded-lg bg-blue-100 p-4 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
          >
             <span class="font-medium">
