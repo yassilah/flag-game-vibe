@@ -3,6 +3,7 @@ import type { Difficulty } from '~/composables/useFlagGame'
 import type { Language } from '~/composables/useLanguage'
 import type { Country } from '~/types/country'
 import FlagCanvas from '~/components/FlagCanvas.vue'
+import Fireworks from '~/components/Fireworks.vue'
 
 interface Props {
    difficulty: Difficulty
@@ -195,12 +196,23 @@ onMounted(initializeGame)
                         </div>
                      </div>
 
-                     <UAlert
-                        v-if="gameOver"
-                        :color="won ? 'success' : 'error'"
-                        :icon="won ? 'i-heroicons-trophy' : 'i-heroicons-x-circle'"
-                        :title="won ? '🎉 Bravo ! Vous avez trouvé !' : `😢 Perdu ! C'était ${targetCountry?.name}`"
-                     />
+                     <div v-if="gameOver" class="space-y-3">
+                        <UAlert
+                           :color="won ? 'success' : 'error'"
+                           :icon="won ? 'i-heroicons-trophy' : 'i-heroicons-x-circle'"
+                           :title="won ? '🎉 Bravo ! Vous avez trouvé !' : `😢 Perdu ! C'était ${targetCountry?.name}`"
+                        />
+                        <a
+                           v-if="won && targetCountry"
+                           :href="`https://www.google.com/maps/search/${targetCountry.name}`"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="inline-flex items-center gap-2 rounded-lg bg-blue-50 px-4 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/50"
+                        >
+                           <span>📍 Voir sur Google Maps</span>
+                           <span class="text-lg">→</span>
+                        </a>
+                     </div>
                   </template>
                </UCard>
 
@@ -220,4 +232,5 @@ onMounted(initializeGame)
          </div>
       </template>
    </div>
+   <Fireworks :show="won" />
 </template>
