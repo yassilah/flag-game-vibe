@@ -19,6 +19,10 @@ export default defineNuxtConfig({
       },
    },
    pwa: {
+      mode: 'development',
+      base: '/',
+      strategies: 'generateSW',
+      filename: 'sw.js',
       manifest: {
          name: 'Flaggle - Jeu de Devinettes de Drapeaux',
          short_name: 'Flaggle',
@@ -46,18 +50,41 @@ export default defineNuxtConfig({
          categories: ['games'],
       },
       workbox: {
-         globPatterns: ['**/*.{js,json,css,html,svg,png,ico,webp,jpg,jpeg,woff2}'],
+         globPatterns: ['**/*.{js,json,css,html,svg,png,ico,webp,jpg,jpeg,woff,woff2}'],
+         globIgnores: ['**/node_modules/**/*', '.nuxt/**/*'],
          navigateFallback: '/',
+         navigateFallbackDenylist: [/^\/api\//],
          cleanupOutdatedCaches: true,
+         skipWaiting: true,
+         clientsClaim: true,
          runtimeCaching: [
             {
                urlPattern: '^https://restcountries\\.com/.*',
                handler: 'CacheFirst',
+               method: 'GET',
                options: {
                   cacheName: 'flaggle-api-cache',
+                  cacheableResponse: {
+                     statuses: [0, 200],
+                  },
                   expiration: {
                      maxEntries: 50,
                      maxAgeSeconds: 7 * 24 * 60 * 60, // 1 week
+                  },
+               },
+            },
+            {
+               urlPattern: '^https://flagcdn\\.com/.*',
+               handler: 'CacheFirst',
+               method: 'GET',
+               options: {
+                  cacheName: 'flaggle-flags-cache',
+                  cacheableResponse: {
+                     statuses: [0, 200],
+                  },
+                  expiration: {
+                     maxEntries: 100,
+                     maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
                   },
                },
             },

@@ -4,8 +4,19 @@ const { $pwa } = useNuxtApp()
 const toast = useToast()
 
 onMounted(() => {
-   if ($pwa.offlineReady)
+   // Register service worker for offline support
+   if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then((registration) => {
+         console.log('Service Worker registered:', registration)
+         toast.success('App ready to work offline')
+      }).catch((error) => {
+         console.warn('Service Worker registration failed:', error)
+      })
+   }
+
+   if ($pwa?.offlineReady) {
       toast.success('App ready to work offline')
+   }
 })
 </script>
 
