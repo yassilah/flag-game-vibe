@@ -1,9 +1,15 @@
 <script setup>
+import { useLanguage } from '~/composables/useLanguage'
+
 const { $pwa } = useNuxtApp()
+const { initializeLanguage } = useLanguage()
 
 const toast = useToast()
 
 onMounted(() => {
+   // Initialize language from localStorage
+   initializeLanguage()
+
    // Register service worker for offline support
    if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js').then((registration) => {
@@ -24,10 +30,15 @@ onMounted(() => {
    <UApp>
       <NuxtPwaManifest />
       <UContainer class="min-h-screen px-4 py-4 sm:px-6 sm:py-8">
-         <header class="mb-6 text-center sm:mb-8">
-            <h1 class="text-primary mb-2 text-3xl font-bold sm:text-4xl md:text-5xl">
-               🏴 Flaggle
-            </h1>
+         <header class="mb-6 sm:mb-8">
+            <div class="mb-4 flex items-center justify-between sm:mb-6">
+               <div class="flex-1">
+                  <h1 class="text-primary text-3xl font-bold sm:text-4xl md:text-5xl">
+                     🏴 Flaggle
+                  </h1>
+               </div>
+               <LanguageSelector />
+            </div>
             <p class="text-sm text-gray-500 sm:text-base dark:text-gray-400">
                Devinez le drapeau en 5 essais !
             </p>

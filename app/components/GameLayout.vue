@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Difficulty } from '~/composables/useFlagGame'
+import type { Language } from '~/composables/useLanguage'
 import type { Country } from '~/types/country'
 import FlagCanvas from '~/components/FlagCanvas.vue'
 
@@ -18,6 +19,11 @@ const flagCanvasRef = ref<InstanceType<typeof FlagCanvas> | null>(null)
  * Countries composable state and actions.
  */
 const { countries, loading, error, fetchCountries } = useCountries()
+
+/**
+ * Language composable state and actions.
+ */
+const { selectedLanguage } = useLanguage()
 
 /**
  * Game state composable state and actions.
@@ -64,7 +70,7 @@ const lastGuessedFlagUrl = computed(() => {
  * Initialize the game flow by fetching countries then starting a round.
  */
 async function initializeGame() {
-   await fetchCountries()
+   await fetchCountries(selectedLanguage.value as Language)
    if (countriesList.value.length) {
       startNewGame(countriesList.value)
    }
@@ -81,7 +87,7 @@ async function handleGuess(country: Country) {
    recordGuess(country, result.accuracy)
    updateMatchedPixels(result.matchedPixels)
 
-   if (gameOver.value) {
+   if (gameOver.value && !won.value) {
       canvas?.showTargetFlag()
    }
 }
@@ -94,6 +100,22 @@ function handleReset() {
    startNewGame(countriesList.value)
    flagCanvasRef.value?.drawInitialState()
 }
+
+/**
+ * Watch for language changes and refetch countries with new language.
+ */
+watch(
+   () => selectedLanguage.value,
+   async (newLanguage) => {
+      if (!newLanguage) return
+      await fetchCountries(newLanguage as Language)
+      if (countriesList.value.length) {
+         startNewGame(countriesList.value)
+         flagCanvasRef.value?.drawInitialState()
+      }
+   },
+   { flush: 'post' },
+)
 
 onMounted(initializeGame)
 </script>

@@ -18,6 +18,11 @@ export default defineNuxtConfig({
          ],
       },
    },
+   $development: {
+      pwa: {
+         disable: true,
+      },
+   },
    pwa: {
       mode: 'development',
       base: '/',

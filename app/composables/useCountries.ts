@@ -1,3 +1,4 @@
+import type { Language } from './useLanguage'
 import type { Country } from '~/types/country'
 
 /**
@@ -8,6 +9,11 @@ import type { Country } from '~/types/country'
  * Cached list of countries.
  */
 const countries = ref<Country[]>([])
+
+/**
+ * Cached language for current country list.
+ */
+const cachedLanguage = ref<Language | null>(null)
 
 /**
  * Loading state for the countries request.
@@ -21,11 +27,19 @@ const error = ref<string | null>(null)
 
 /**
  * Map REST Countries payload to the internal `Country` shape.
+ * If localizations are available, use the specified language.
  */
-function mapCountry(payload: any): Country {
+function mapCountry(payload: any, language: Language): Country {
+   let name = payload?.name?.common ?? 'Unknown'
+
+   // Try to get localized name
+   if (language !== 'eng' && payload?.translations?.[language]) {
+      name = payload.translations[language].common ?? name
+   }
+
    return {
       code: payload?.cca2 ?? '',
-      name: payload?.name?.common ?? 'Unknown',
+      name,
       flag: payload?.flags?.svg ?? payload?.flags?.png ?? '',
       emoji: payload?.flag ?? '🏳️',
    }
@@ -34,8 +48,8 @@ function mapCountry(payload: any): Country {
 /**
  * Fetch countries from REST Countries once and cache the result.
  */
-async function fetchCountries(): Promise<Country[]> {
-   if (countries.value.length > 0 || loading.value) {
+async function fetchCountries(language: Language = 'eng'): Promise<Country[]> {
+   if (cachedLanguage.value === language && countries.value.length > 0) {
       return countries.value
    }
 
@@ -45,15 +59,16 @@ async function fetchCountries(): Promise<Country[]> {
    try {
       const response = await $fetch<any[]>(
          'https://restcountries.com/v3.1/all',
-         { query: { fields: 'name,cca2,flags,flag' } },
+         { query: { fields: 'name,cca2,flags,flag,translations' } },
       )
 
       const mapped = (response || [])
-         .map(mapCountry)
+         .map(payload => mapCountry(payload, language))
          .filter(country => country.code && country.flag)
-         .sort((a, b) => a.name.localeCompare(b.name))
+         .sort((a, b) => a.name.localeCompare(b.name, language))
 
       countries.value = mapped
+      cachedLanguage.value = language
    }
    catch (err: any) {
       error.value = err?.message || 'Impossible de charger les pays.'
