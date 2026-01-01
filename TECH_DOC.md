@@ -46,16 +46,16 @@ flag-game/
 
 **État Réactif** :
 ```javascript
-const maxGuesses = 5                    // Nombre d'essais maximum
-const currentGuess = ref(0)             // Essai actuel
-const guesses = ref([])                 // Historique des tentatives
-const guessedCountries = ref([])        // Codes des pays déjà devinés
-const targetCountry = ref(null)         // Pays à deviner
-const gameOver = ref(false)             // État de fin de partie
-const won = ref(false)                  // Victoire ou défaite
-const searchQuery = ref('')             // Recherche de pays
-const flagCanvas = ref(null)            // Référence au canvas
-const targetFlagImage = ref(null)       // Image du drapeau cible
+const maxGuesses = 5 // Nombre d'essais maximum
+const currentGuess = ref(0) // Essai actuel
+const guesses = ref([]) // Historique des tentatives
+const guessedCountries = ref([]) // Codes des pays déjà devinés
+const targetCountry = ref(null) // Pays à deviner
+const gameOver = ref(false) // État de fin de partie
+const won = ref(false) // Victoire ou défaite
+const searchQuery = ref('') // Recherche de pays
+const flagCanvas = ref(null) // Référence au canvas
+const targetFlagImage = ref(null) // Image du drapeau cible
 ```
 
 **Fonctions Principales** :
@@ -85,12 +85,12 @@ Dessine le drapeau avec pixelisation progressive :
 ```javascript
 // Pour chaque bloc de pixels
 for (let y = 0; y < height; y += pixelSize) {
-  for (let x = 0; x < width; x += pixelSize) {
-    // Échantillonner la couleur d'un pixel
-    const color = getPixelColor(x, y)
-    // Remplir tout le bloc avec cette couleur
-    fillRect(x, y, pixelSize, pixelSize, color)
-  }
+   for (let x = 0; x < width; x += pixelSize) {
+      // Échantillonner la couleur d'un pixel
+      const color = getPixelColor(x, y)
+      // Remplir tout le bloc avec cette couleur
+      fillRect(x, y, pixelSize, pixelSize, color)
+   }
 }
 ```
 
@@ -192,7 +192,7 @@ Filtre les pays en fonction de la recherche :
 
 ### Optimisations Actuelles
 
-1. **Lazy Loading** : 
+1. **Lazy Loading** :
    - Les images ne sont chargées que pour le drapeau cible
    - Pas de préchargement de tous les drapeaux
 
@@ -217,9 +217,9 @@ Filtre les pays en fonction de la recherche :
 
 1. **Préchargement** :
    ```javascript
-   const preloadImage = (url) => {
-     const img = new Image()
-     img.src = url
+   function preloadImage(url) {
+      const img = new Image()
+      img.src = url
    }
    ```
 

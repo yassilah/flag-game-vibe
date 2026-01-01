@@ -85,7 +85,7 @@ git checkout -b feature/ma-super-fonctionnalite
 **Variables & Fonctions** : camelCase
 ```javascript
 const targetCountry = ref(null)
-const makeGuess = () => {}
+function makeGuess() {}
 ```
 
 **Composants** : PascalCase
@@ -103,13 +103,9 @@ flag-game.vue
 ### Structure Vue Components
 
 ```vue
-<template>
-  <!-- Template simple et lisible -->
-</template>
-
 <script setup>
 // 1. Imports
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 
 // 2. Props & Emits (si nécessaire)
 const props = defineProps({})
@@ -122,11 +118,15 @@ const myState = ref(0)
 const myComputed = computed(() => {})
 
 // 5. Fonctions
-const myFunction = () => {}
+function myFunction() {}
 
 // 6. Lifecycle hooks
 onMounted(() => {})
 </script>
+
+<template>
+   <!-- Template simple et lisible -->
+</template>
 
 <style scoped>
 /* Styles spécifiques au composant */

@@ -11,7 +11,7 @@ Cette section contiendra des captures d'écran du jeu une fois que celui-ci sera
    - Après quelques tentatives
    - Écran de victoire
    - Écran de défaite
-   
+
 4. Ajoutez les images dans un dossier `docs/screenshots/`
 5. Référencez-les ici
 

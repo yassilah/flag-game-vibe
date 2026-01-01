@@ -9,7 +9,7 @@ Votre jeu Flaggle est maintenant prêt à être utilisé. Voici un récapitulati
 ### Technologies
 - ✅ **Nuxt 4.2.2** - Framework Vue.js moderne
 - ✅ **Vue 3.5.26** - Framework JavaScript réactif
-- ✅ **Tailwind CSS 6.14.0** - Framework CSS utility-first
+- ✅ **Nuxt UI 4.3.0** - Bibliothèque de composants UI
 - ✅ **Vite 7.3.0** - Build tool ultra-rapide
 - ✅ **pnpm** - Gestionnaire de paquets performant
 
@@ -48,15 +48,19 @@ flag-game/
 
 ### Gameplay
 - 🎯 **5 tentatives** pour deviner le drapeau
-- 🔄 **Révélation progressive** avec pixelisation décroissante
+- � **Comparaison pixel par pixel** entre votre choix et le drapeau cible
+- 🟢 **Pixels verts** = correspondance exacte
+- ⬜ **Pixels transparents** = pixels différents
+- 📊 **Pourcentage de précision** affiché pour chaque tentative
 - 🏴 **71 pays** disponibles
 - 🔍 **Barre de recherche** pour filtrer les pays
-- 📊 **Historique** des tentatives
-- 🎨 **Interface moderne** et responsive
+- 📈 **Historique** des tentatives avec scores
+- 🎨 **Interface moderne avec Nuxt UI** et responsive
 
 ### Technique
 - 🖼️ **Canvas API** pour le rendu des drapeaux
-- 🎨 **Algorithme de pixelisation** progressif
+- 🔬 **Algorithme de comparaison pixel par pixel** avec calcul de similarité
+- 📐 **Seuil de tolérance** configurable pour la détection de correspondance
 - ⚡ **Performance optimisée**
 - 📱 **Mobile-friendly**
 
@@ -91,11 +95,17 @@ Ouvrez cette URL dans votre navigateur pour jouer !
 
 ## 🎯 Comment Jouer
 
-1. **Observez** le drapeau pixelisé affiché
+1. **Observez** l'écran gris initial (aucune information avant la première tentative)
 2. **Recherchez** ou sélectionnez un pays dans la liste
 3. **Cliquez** sur le pays pour faire votre tentative
-4. Le drapeau se révèle progressivement à chaque essai
-5. **Gagnez** en trouvant le bon drapeau avant d'épuiser vos 5 essais !
+4. Le jeu affiche la **différence pixel par pixel** :
+   - 🟢 **Vert** = pixels identiques entre votre choix et le drapeau cible
+   - ⬜ **Transparent** = pixels différents (laisse voir le fond gris)
+5. Consultez le **pourcentage de précision** (en haut à droite)
+6. **Utilisez** les tentatives précédentes pour affiner votre choix
+7. **Gagnez** en trouvant le bon drapeau avant d'épuiser vos 5 essais !
+
+**Astuce** : Commencez par des drapeaux avec des motifs distinctifs pour avoir des points de comparaison !
 
 ## 🔧 Personnalisation Facile
 
@@ -116,11 +126,11 @@ Dans `app/data/countries.js`, ajoutez :
 }
 ```
 
-### Ajuster la pixelisation
-Dans `app/components/FlagGame.vue`, ligne 153 :
+### Ajuster la tolérance de comparaison
+Dans `app/components/FlagGame.vue`, ligne ~130 :
 ```javascript
-const pixelSize = Math.max(1, Math.floor(30 * (1 - revealPercentage)))
-// Plus le nombre est élevé, plus c'est pixelisé au début
+const threshold = 30 // Seuil de tolérance pour la correspondance des pixels
+// Plus bas = plus strict, plus haut = plus tolérant
 ```
 
 ## 📚 Documentation Disponible
@@ -187,9 +197,9 @@ Votre jeu Flaggle est maintenant complet et fonctionnel. Amusez-vous bien ! 🏴
 
 ---
 
-**Version** : 1.0.0  
-**Date** : 31 Décembre 2025  
-**Auteur** : Yassi Lah  
-**Licence** : MIT  
+**Version** : 1.0.0
+**Date** : 31 Décembre 2025
+**Auteur** : Yassi Lah
+**Licence** : MIT
 
 🌟 **N'oubliez pas de star le projet si vous l'aimez !** 🌟
