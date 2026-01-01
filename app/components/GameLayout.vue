@@ -9,7 +9,7 @@ interface Props {
    difficulty: Difficulty
 }
 
-withDefaults(defineProps<Props>(), {})
+const { difficulty } = defineProps<Props>()
 
 /**
  * Reference to the flag canvas component instance.
@@ -19,7 +19,7 @@ const flagCanvasRef = ref<InstanceType<typeof FlagCanvas> | null>(null)
 /**
  * Countries composable state and actions.
  */
-const { countries, loading, error, fetchCountries } = useCountries()
+const { loading, error, fetchCountries, getCountriesByDifficulty } = useCountries()
 
 /**
  * Language composable state and actions.
@@ -48,7 +48,10 @@ const {
 /**
  * Reactive list of countries (falls back to empty array).
  */
-const countriesList = computed(() => countries.value || [])
+const countriesList = computed(() => {
+   const filtered = getCountriesByDifficulty(difficulty as 'easy' | 'medium' | 'hard' | 'extreme')
+   return filtered || []
+})
 
 /**
  * Human-friendly countries loading flag.
@@ -59,6 +62,11 @@ const countriesLoading = computed(() => loading.value)
  * Human-friendly countries error message.
  */
 const countriesError = computed(() => error.value)
+
+/**
+ * Number of countries available for current difficulty.
+ */
+const countriesCount = computed(() => countriesList.value.length)
 
 /**
  * URL of the last guessed flag.
@@ -131,7 +139,7 @@ onMounted(initializeGame)
             ← Retour à l'accueil
          </NuxtLink>
          <h1 class="text-xl font-bold capitalize sm:text-2xl">
-            Niveau: {{ difficulty }}
+            Niveau: {{ difficulty }} <span class="text-lg font-normal text-gray-600 dark:text-gray-400">({{ countriesCount }} pays)</span>
          </h1>
       </div>
 

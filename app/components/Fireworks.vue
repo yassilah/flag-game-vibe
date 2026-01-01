@@ -31,7 +31,7 @@ function createParticleBurst() {
          vy: Math.sin(angle) * velocity,
          life: 1,
          maxLife: 1,
-         color: colors[Math.floor(Math.random() * colors.length)],
+         color: colors[Math.floor(Math.random() * colors.length)] || '#ffffff',
          size,
       })
    }

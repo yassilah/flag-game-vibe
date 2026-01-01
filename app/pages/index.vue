@@ -58,6 +58,18 @@
                   <span class="text-xs text-gray-500 sm:text-sm">Nom du pays uniquement</span>
                </UButton>
             </NuxtLink>
+
+            <NuxtLink to="/extreme">
+               <UButton
+                  block
+                  variant="outline"
+                  color="error"
+                  class="flex-col items-start gap-0.5 py-3 sm:py-4"
+               >
+                  <span class="text-sm font-semibold sm:text-base">Extrême</span>
+                  <span class="text-xs text-gray-500 sm:text-sm">Tous les pays, pas de indices</span>
+               </UButton>
+            </NuxtLink>
          </div>
       </UCard>
    </div>

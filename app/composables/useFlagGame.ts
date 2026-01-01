@@ -3,7 +3,7 @@ import type { Country } from '~/types/country'
 /**
  * Difficulty levels for the game.
  */
-export type Difficulty = 'easy' | 'medium' | 'hard'
+export type Difficulty = 'easy' | 'medium' | 'hard' | 'extreme'
 
 /**
  * Composable that holds game state and helpers for the flag guessing flow.

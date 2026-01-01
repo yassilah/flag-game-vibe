@@ -16,6 +16,11 @@ const countries = ref<Country[]>([])
 const cachedLanguage = ref<Language | null>(null)
 
 /**
+ * Raw data with area info for filtering.
+ */
+const countriesWithArea = ref<any[]>([])
+
+/**
  * Loading state for the countries request.
  */
 const loading = ref(false)
@@ -46,6 +51,24 @@ function mapCountry(payload: any, language: Language): Country {
 }
 
 /**
+ * Filter countries by area threshold based on difficulty.
+ */
+function filterByDifficulty(data: any[], difficulty: 'easy' | 'medium' | 'hard' | 'extreme'): any[] {
+   const thresholds: Record<string, number> = {
+      easy: 50000,
+      medium: 20000,
+      hard: 10000,
+      extreme: 0,
+   }
+
+   const threshold = thresholds[difficulty] ?? 0
+   return data.filter((country) => {
+      const area = country?.area ?? Infinity
+      return area >= threshold
+   })
+}
+
+/**
  * Fetch countries from REST Countries once and cache the result.
  */
 async function fetchCountries(language: Language = 'eng'): Promise<Country[]> {
@@ -59,8 +82,10 @@ async function fetchCountries(language: Language = 'eng'): Promise<Country[]> {
    try {
       const response = await $fetch<any[]>(
          'https://restcountries.com/v3.1/all',
-         { query: { fields: 'name,cca2,flags,flag,translations' } },
+         { query: { fields: 'name,cca2,flags,flag,translations,area' } },
       )
+
+      countriesWithArea.value = response || []
 
       const mapped = (response || [])
          .map(payload => mapCountry(payload, language))
@@ -81,6 +106,15 @@ async function fetchCountries(language: Language = 'eng'): Promise<Country[]> {
 }
 
 /**
+ * Get countries filtered by difficulty.
+ */
+function getCountriesByDifficulty(difficulty: 'easy' | 'medium' | 'hard' | 'extreme'): Country[] {
+   const filteredData = filterByDifficulty(countriesWithArea.value, difficulty)
+   const codes = new Set(filteredData.map(c => c.cca2))
+   return countries.value.filter(c => codes.has(c.code))
+}
+
+/**
  * Expose reactive country state and actions.
  */
 export function useCountries() {
@@ -89,5 +123,6 @@ export function useCountries() {
       loading,
       error,
       fetchCountries,
+      getCountriesByDifficulty,
    }
 }
