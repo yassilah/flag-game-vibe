@@ -2,8 +2,8 @@
 import type { Difficulty } from '~/composables/useFlagGame'
 import type { Language } from '~/composables/useLanguage'
 import type { Country } from '~/types/country'
-import FlagCanvas from '~/components/FlagCanvas.vue'
 import Fireworks from '~/components/Fireworks.vue'
+import FlagCanvas from '~/components/FlagCanvas.vue'
 
 interface Props {
    difficulty: Difficulty
@@ -196,7 +196,10 @@ onMounted(initializeGame)
                         </div>
                      </div>
 
-                     <div v-if="gameOver" class="space-y-3">
+                     <div
+                        v-if="gameOver"
+                        class="space-y-3"
+                     >
                         <UAlert
                            :color="won ? 'success' : 'error'"
                            :icon="won ? 'i-heroicons-trophy' : 'i-heroicons-x-circle'"
@@ -232,5 +235,5 @@ onMounted(initializeGame)
          </div>
       </template>
    </div>
-   <Fireworks :show="won" />
+   <Fireworks v-if="won" />
 </template>
