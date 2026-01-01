@@ -57,7 +57,7 @@ const emitGuess = (country: Country) => emit('guess', country)
             color="neutral"
             block
             class="justify-start"
-            :ui="{ base: ['text-left flex flex-col justify-center items-center', difficulty === 'easy' ? 'h-38' : ''] }"
+            :ui="{ base: 'text-left flex flex-col justify-center items-center' }"
             @click="emitGuess(country)"
          >
             <!-- Easy: flag emoji + name -->

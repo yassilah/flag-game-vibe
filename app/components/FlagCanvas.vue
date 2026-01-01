@@ -323,7 +323,7 @@ defineExpose({ compareWithGuess, showTargetFlag, drawInitialState })
          ref="flagCanvas"
          :width="canvasWidth"
          :height="canvasHeight"
-         class="h-full w-full"
+         class="h-full w-full max-h-[400px] sm:max-h-none"
       />
 
       <div
