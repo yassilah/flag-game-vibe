@@ -65,7 +65,7 @@ const emitGuess = (country: Country) => emit('guess', country)
                <img
                   :src="country.flag"
                   :alt="country.name"
-                  class="mx-auto flex-1 border object-cover"
+                  class="mx-auto max-h-36 flex-1 border object-cover"
                >
                <span class="truncate text-sm">{{ country.name }}</span>
             </template>
